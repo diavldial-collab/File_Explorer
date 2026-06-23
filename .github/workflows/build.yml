@@ -26,7 +26,7 @@ jobs:
     - name: PyInstaller로 단일 exe 빌드
       # --onefile 옵션으로 단일 파일 생성, 파일명에 공백이 있어 따옴표("") 사용
       run: |
-        pyinstaller --noconfirm --onefile --windowed "Create Advance_Explorer_V3g_20260323_9_WindowContext.py"
+        pyinstaller --noconfirm --onefile --windowed "Advance_Explorer_V3g_20260323_9_WindowContext.py"
 
     - name: 빌드된 exe 파일 업로드
       uses: actions/upload-artifact@v4
