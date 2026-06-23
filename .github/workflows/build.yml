@@ -1,0 +1,37 @@
+name: Build EXE
+
+# main 브랜치에 푸시될 때마다 이 작업이 자동으로 실행됩니다.
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # exe 파일을 만들어야 하므로 가상의 Windows 환경을 사용합니다.
+    runs-on: windows-latest 
+
+    steps:
+    - name: 저장소 코드 가져오기
+      uses: actions/checkout@v3
+
+    - name: 파이썬 환경 설정
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # 사용하시는 파이썬 버전에 맞게 수정하세요
+
+    - name: 필요한 라이브러리 설치
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: PyInstaller로 exe 빌드
+      # main.py 부분을 실제 실행하시는 파이썬 파일명으로 변경하세요.
+      # GUI 프로그램이므로 --windowed 옵션을 넣어 검은 콘솔창을 숨깁니다.
+      run: |
+        pyinstaller --noconfirm --onedir --windowed main.py
+
+    - name: 빌드된 exe 파일 업로드 (결과물 저장)
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-exe-build
+        path: dist/
